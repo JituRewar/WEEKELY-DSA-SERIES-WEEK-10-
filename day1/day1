@@ -1,0 +1,88 @@
+# Week 10 - Day 1: First Unique Character in a String
+
+## 📌 Problem
+LeetCode 387: First Unique Character in a String
+
+🔗 https://leetcode.com/problems/first-unique-character-in-a-string/
+
+## 🧠 Problem Statement
+
+Given a string `s`, find the first non-repeating character in it and return its index. If it does not exist, return -1.
+
+### Example 1:
+Input:
+s = "leetcode"
+
+Output:
+0
+
+Explanation:
+'l' is the first unique character.
+
+### Example 2:
+Input:
+s = "loveleetcode"
+
+Output:
+2
+
+### Example 3:
+Input:
+s = "aabb"
+
+Output:
+-1
+
+---
+
+## 🚀 Approach (Using unordered_map + queue)
+
+### Idea:
+We use:
+
+- unordered_map → to store frequency of characters
+- queue → to store characters in order of appearance
+
+### Steps:
+
+1. Traverse string
+2. Store frequency in unordered_map
+3. Push character index into queue
+4. While queue not empty and frequency > 1, pop from queue
+5. Front of queue will be answer
+6. If queue empty → return -1
+
+---
+
+## ⏱️ Complexity
+
+Time Complexity: O(n)  
+Space Complexity: O(n)
+
+---
+
+## 🧾 Code
+
+```cpp
+class Solution {
+public:
+    int firstUniqChar(string s) {
+        unordered_map<char,int> m;
+        queue<int> q;
+
+        for(int i=0;i<s.length();i++){
+            if(m.find(s[i])==m.end()){
+                q.push(i);
+                m[s[i]]++;
+            }
+            else{
+                m[s[i]]++;
+            }
+
+            while(q.size()>0 && m[s[q.front()]]>1){
+                q.pop();
+            }
+        }
+        return q.empty() ? -1 : q.front();
+    }
+};
