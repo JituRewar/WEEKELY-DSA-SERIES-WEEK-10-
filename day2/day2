@@ -1,0 +1,92 @@
+# Week 10 - Day 2 
+## LeetCode 134 - Gas Station
+
+🔗 Problem Link: https://leetcode.com/problems/gas-station/
+
+---
+
+## 🧠 Problem Statement
+
+There are `n` gas stations arranged in a circular route.  
+You are given two integer arrays:
+
+- `gas[i]` → amount of gas at station i  
+- `cost[i]` → cost of gas to travel from station i to i+1  
+
+Return the starting gas station index if you can travel around the circuit once in clockwise direction, otherwise return -1.
+
+---
+
+## 💡 Approach (Greedy)
+
+### Key Observations
+
+1. If total gas < total cost → impossible to complete circuit.
+2. If at any point current gas becomes negative:
+   - Previous start index is invalid.
+   - Start from next station.
+
+---
+
+## 🔍 Algorithm
+
+1. Maintain:
+   - `totalGas`
+   - `totalCost`
+   - `currGas`
+   - `start`
+2. Traverse array once.
+3. If `currGas < 0`, update:
+   - `start = i + 1`
+   - `currGas = 0`
+4. After loop:
+   - If `totalGas < totalCost` → return -1
+   - Else return `start`
+
+---
+
+## ⏱️ Complexity
+
+- Time Complexity: O(n)
+- Space Complexity: O(1)
+
+---
+
+## 🧪 Example
+
+Input:
+gas  = [1,2,3,4,5]  
+cost = [3,4,5,1,2]
+
+Output:
+3
+
+Explanation:
+Starting at index 3 allows completing the circuit.
+
+  ```cpp
+  class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int totalGas=0,totalCost=0;
+        if(totalGas < totalCost){
+            return -1;
+        }
+
+        // now moving forward to actual logic
+        int start=0;
+        int currGas=0;
+        for(int i=0;i<gas.size();i++){
+            totalGas+=gas[i];
+            totalCost+=cost[i];
+
+            currGas+=(gas[i]-cost[i]);
+            if(currGas < 0){
+                start=i+1;
+                currGas=0;
+            }
+        }
+    return totalGas<totalCost ? -1 : start;
+        
+    }
+};
