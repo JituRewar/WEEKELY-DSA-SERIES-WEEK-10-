@@ -1,0 +1,167 @@
+# 🌳 Week 10 - Day 4: Binary Tree (Implementation & Traversals)
+
+## 📌 Topics Covered
+- Binary Tree Implementation
+- Preorder Traversal
+- Inorder Traversal
+- Postorder Traversal
+- Level Order Traversal
+
+---
+
+## 🌳 What is a Binary Tree?
+
+A Binary Tree is a tree data structure where each node has at most two children:
+- Left Child
+- Right Child
+
+---
+
+## 🏗️ Implementation
+
+We implement a binary tree using a Node class with:
+- Data
+- Left pointer
+- Right pointer
+
+---
+
+## 🔁 Tree Traversals
+
+### 1️⃣ Preorder Traversal (Root → Left → Right)
+Used in copying the tree or prefix expression.
+
+### 2️⃣ Inorder Traversal (Left → Root → Right)
+Gives sorted output in BST.
+
+### 3️⃣ Postorder Traversal (Left → Right → Root)
+Used in deleting the tree.
+
+### 4️⃣ Level Order Traversal
+Traversal level by level using Queue.
+
+---
+
+## ⏱️ Time Complexity
+- All DFS Traversals: O(n)
+- Level Order Traversal: O(n)
+
+---
+
+## 📚 Learning Outcome
+- Understood tree node structure
+- Learned recursive DFS traversals
+- Learned BFS traversal using queue
+
+  ``cpp
+  #include <bits/stdc++.h>
+using namespace std;
+
+class Node
+{
+public:
+    int data;
+    Node *left;
+    Node *right;
+
+    Node(int val)
+    {
+        data = val;
+        left = right = NULL;
+    }
+};
+static int idx = -1;
+// creation of binary tree
+Node *buildTree(vector<int> preorder)
+{
+    idx++;
+    if (preorder[idx] == -1)
+        return NULL;
+    // base case
+    Node *root = new Node(preorder[idx]);
+
+    root->left = buildTree(preorder);
+    root->right = buildTree(preorder);
+
+    return root;
+}
+
+// traversal binary tree
+// 1. preorder
+void preOrder(Node *root)
+{
+    if (root == NULL)
+        return;
+
+    cout << root->data << " ";
+    preOrder(root->left);
+    preOrder(root->right);
+}
+
+// 2. inorder
+void inOrder(Node *root)
+{
+    if (root == NULL)
+        return;
+
+    inOrder(root->left);
+    cout << root->data << " ";
+    inOrder(root->right);
+}
+
+// 3. postOrder
+void postOrder(Node *root)
+{
+    if (root == NULL)
+        return;
+
+    postOrder(root->left);
+    postOrder(root->right);
+    cout << root->data << " ";
+}
+
+// 4. iterativly
+void leveOrder(Node* root){
+    queue<Node*> q;
+    q.push(root);
+    q.push(NULL);
+    while(q.size()>0){
+        Node* curr = q.front();
+        q.pop();
+        
+        if(curr==NULL){
+            if(!q.empty()){
+                cout<<endl;
+                q.push(NULL);
+                continue;
+            }
+            else{
+                break;
+            }
+        }
+
+
+        cout<< curr->data <<" ";
+        if(curr->left!=NULL){
+            q.push(curr->left);
+        }
+        if(curr->right!=NULL){
+            q.push(curr->right);
+        }
+    }
+    cout<<endl;
+}
+int main()
+{
+    vector<int> preorder = {1, 2, -1, -1, 3, 4, -1, -1, 5, -1, -1};
+    Node *root = buildTree(preorder);
+    preOrder(root);
+    cout << endl;
+    inOrder(root);
+    cout << endl;
+    postOrder(root);
+    cout << endl;
+    leveOrder(root);
+    return 0;
+}
+- Strengthened tree fundamentals
