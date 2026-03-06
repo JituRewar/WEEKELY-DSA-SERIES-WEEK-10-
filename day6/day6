@@ -1,0 +1,65 @@
+# Week 10 - Day 6 | Weekly DSA Series
+
+Today I solved two Binary Tree problems from LeetCode.
+
+## Problems Covered
+
+### 1. LeetCode 100 - Same Tree
+Check whether two binary trees are identical or not.
+
+### 2. LeetCode 572 - Subtree of Another Tree
+Check whether one tree is a subtree of another tree.
+
+---
+
+# Problem 1: Same Tree
+
+### Problem Statement
+Given the roots of two binary trees `p` and `q`, write a function to check if they are the same.
+
+Two binary trees are considered the same if:
+
+- They are structurally identical
+- The nodes have the same value
+
+### Approach
+
+We use **Recursion**:
+
+1. If both nodes are `NULL` → return `true`
+2. If one node is `NULL` and the other isn't → return `false`
+3. Check if values are equal
+4. Recursively check left and right subtrees
+
+### Time Complexity
+  ```cpp
+  100.
+      bool isIdentical(TreeNode* p, TreeNode* q){
+        if(p==NULL || q==NULL) return p==q;
+
+        bool leftSide = isIdentical(p->left,q->left);
+        bool rightSide = isIdentical(p->right,q->right);
+
+        return leftSide && rightSide && p->val==q->val;
+    }
+
+572.
+  class Solution {
+public:
+    bool isIdentical(TreeNode* p, TreeNode* q){
+        if(p==NULL || q==NULL) return p==q;
+
+        bool leftSide = isIdentical(p->left,q->left);
+        bool rightSide = isIdentical(p->right,q->right);
+
+        return leftSide && rightSide && p->val==q->val;
+    }
+    bool isSubtree(TreeNode* root, TreeNode* subRoot) {
+    if(root==NULL || subRoot==NULL) return root==subRoot;
+
+    if(root->val == subRoot->val && isIdentical(root,subRoot)){
+        return true;
+    }        
+   return isSubtree(root->left,subRoot) || isSubtree(root->right,subRoot);
+    }
+};
