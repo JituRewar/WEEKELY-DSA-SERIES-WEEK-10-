@@ -1,0 +1,62 @@
+# Week 10 - Day 7 | Diameter of Binary Tree
+
+## 📌 Problem
+LeetCode 543 – Diameter of Binary Tree
+
+The **diameter of a binary tree** is the length of the longest path between any two nodes in a tree.  
+This path may or may not pass through the root.
+
+The length of a path is defined as the **number of edges between nodes**.
+
+🔗 Problem Link: https://leetcode.com/problems/diameter-of-binary-tree/
+
+---
+
+## 🧠 Approach
+
+To find the diameter, we calculate the **height of each subtree**.
+
+For every node:
+- Find **height of left subtree**
+- Find **height of right subtree**
+- The path passing through that node = `leftHeight + rightHeight`
+
+We keep updating the **maximum diameter** while computing heights.
+
+This can be done efficiently using **DFS recursion**.
+
+---
+
+## ⏱️ Complexity
+
+- **Time Complexity:** `O(n)`
+- **Space Complexity:** `O(h)` (recursion stack)
+
+Where:
+- `n` = number of nodes
+- `h` = height of tree
+
+---
+
+## 💻 C++ Implementation
+
+```cpp
+class Solution {
+public:
+    int ans=0;
+    int height(TreeNode* root){
+        if(root==NULL) return 0;
+
+        int leftht = height(root->left);
+        int rightht = height(root->right);
+
+        ans = max(ans,leftht+rightht);
+        return max(leftht,rightht) + 1;
+    }
+
+    int diameterOfBinaryTree(TreeNode* root) {
+        height(root);
+
+        return ans;
+    }
+};
